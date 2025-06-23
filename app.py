@@ -60,5 +60,11 @@ def check_rank():
 
     return send_file(filename, as_attachment=True)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+import os
+
+if __name__ == "__main__":
+    # Get port from environment (Render sets this), default to 5000 locally
+    port = int(os.environ.get("PORT", 5000))
+    # Listen on all interfaces (0.0.0.0) so Render can route to it
+    app.run(host="0.0.0.0", port=port, debug=True)

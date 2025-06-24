@@ -1,10 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>SEO Rank Checker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: rgba(255, 255, 255, 0.6);
+      --text: #111;
+      --glass: rgba(255, 255, 255, 0.25);
+      --border: rgba(255, 255, 255, 0.4);
+    }
+    body.dark {
+      --bg: rgba(0, 0, 0, 0.6);
+      --text: #f9f9f9;
+      --glass: rgba(30, 30, 30, 0.25);
+      --border: rgba(255, 255, 255, 0.1);
+      background: #121212;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: url('https://www.apple.com/v/home/bd/images/heroes/macbook-air/hero_macbook_air__f6snf865c8i6_large.jpg') center/cover no-repeat;
+      backdrop-filter: blur(12px);
+      height: 100vh;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 25px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 0.5s ease;
+      position: relative;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+    }
+    input:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+    }
+    button {
+      background: #007aff;
+      color: white;
+      font-weight: 600;
+      border: none;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #005fe0;
+    }
+    .toggle-theme {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s ease;
+      z-index: 999;
+    }
+    .toggle-theme:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 20px;
+      }
+      input, select, button {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toggle-theme" onclick="toggleTheme()">🌗 Toggle</div>
+
+  <div class="container">
+    <h2>🔍 SEO Rank Checker</h2>
+    <form action="/check" method="post">
+      <!-- Keywords -->
+      {% for i in range(1, 11) %}
+        <input type="text" name="keyword{{ i }}" placeholder="🔑 Keyword {{ i }}">
+      {% endfor %}
+
+      <!-- Target domain -->
+      <input type="text" name="target_domain" placeholder="🎯 Target Domain (e.g. example.com)" required>
+
+      <!-- Country Selector -->
+      <select name="country_code" required>
+        <option value="">🌐 Select Country Search Engine</option>
+        <option value="google.in">🇮🇳 India (google.in)</option>
+        <option value="google.ae">🇦🇪 UAE (google.ae)</option>
+      </select>
+
+      <button type="submit">🚀 Check & Download CSV<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SEO Rank Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: rgba(255, 255, 255, 0.6);
@@ -42,7 +168,7 @@
       animation: fadeIn 0.5s ease;
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 24px;
       position: relative;
     }
     @keyframes fadeIn {
@@ -53,11 +179,11 @@
       width: 100%;
       text-align: center;
       margin-bottom: 10px;
-      font-size: 26px;
+      font-size: 24px;
     }
     .left, .right {
       flex: 1;
-      min-width: 280px;
+      min-width: 300px;
     }
     input[type="text"], select {
       width: 100%;
@@ -70,7 +196,7 @@
       font-size: 15px;
       transition: all 0.2s ease;
     }
-    input[type="text"]:focus, select:focus {
+    input:focus, select:focus {
       outline: none;
       box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
     }
@@ -107,6 +233,16 @@
     .toggle-theme:hover {
       background: rgba(255, 255, 255, 0.5);
     }
+
+    /* Mobile layout stack */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .left, .right {
+        min-width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -114,21 +250,20 @@
 
   <div class="container">
     <h2>🔍 SEO Rank Checker</h2>
-    <form action="/check" method="post" style="display: flex; flex-wrap: wrap; gap: 20px; width: 100%;">
+    <form action="/check" method="post" style="display: flex; flex-wrap: wrap; gap: 24px; width: 100%;">
       <div class="left">
         {% for i in range(1, 11) %}
         <input type="text" name="keyword{{ i }}" placeholder="🔑 Keyword {{ i }}">
         {% endfor %}
       </div>
       <div class="right">
-        <input type="text" name="target_domain" placeholder="🎯 Target Domain" required>
-        <select name="search_engine">
-          <option value="google.com">🌐 Default (Google.com)</option>
-          <option value="google.in">🇮🇳 Google India (google.in)</option>
-          <option value="google.ae">🇦🇪 Google UAE (google.ae)</option>
-          <option value="google.co.uk">🇬🇧 Google UK (google.co.uk)</option>
+        <input type="text" name="target_domain" placeholder="🎯 Target Domain (e.g. example.com)" required>
+        <select name="country_code" required>
+          <option value="">🌐 Select Country Search Engine</option>
+          <option value="google.in">🇮🇳 India (google.in)</option>
+          <option value="google.ae">🇦🇪 UAE (google.ae)</option>
         </select>
-        <button type="submit">Check & Download CSV</button>
+        <button type="submit">🚀 Check & Download CSV</button>
       </div>
     </form>
   </div>

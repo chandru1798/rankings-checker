@@ -29,7 +29,7 @@ def check_rank():
             found_rank = "Not found"
             found_url = ""
 
-            for start in range(1, 31, 10):  # Pages 1–3 (top 30)
+            for start in range(1, 51, 10):  # Pages 1–3 (top 30)
                 url = f"https://www.googleapis.com/customsearch/v1?q={keyword}&key={API_KEY}&cx={CX}&start={start}"
 
                 try:
